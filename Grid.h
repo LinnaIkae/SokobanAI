@@ -7,8 +7,6 @@
  * 
  */
 
-//Seuraavaksi pitäisi sisällyttää ehkä rectanglet tai tiedot niistä tämän
-//luokan sisälle.
 
 #include <SFML/Graphics.hpp>
 #include <iostream>
@@ -16,6 +14,8 @@ using namespace std;
 
 
 class Grid {
+/* Grid class should include the static parts of the map, but the 
+  player, crates and goal should be separate.*/
 public:
     Grid();
     Grid(sf::Vector2f s_cell,unsigned int rows_,unsigned int columns_);
@@ -52,6 +52,7 @@ public:
     }
     
     sf::RectangleShape& getCellAt(int row, int col);
+    sf::Vector2f getCellCenter(int row, int col);
     void draw(sf::RenderWindow &window);
     void setTexture(const sf::Texture* txtr, sf::IntRect sr, int row, int col);
     

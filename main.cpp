@@ -4,6 +4,7 @@
 #include <iostream>
 #include <math.h>
 #include <valarray>
+#include <SFML/Graphics/Transformable.hpp>
 #include "Grid.h"
 using namespace std;
 
@@ -17,24 +18,32 @@ int main(int argc, char** argv) {
     if(!texture.loadFromFile("Spritesheet/sprites.png")){
         cout << "failed loading texture file" << endl;
     }
-    sf::IntRect wall(0, 0, 64, 64);
-    sf::IntRect player(362, 248, 42, 59);
-    sf::IntRect crate(192, 0, 64, 64);
-    sf::IntRect goal(96, 384, 32, 32);
-    sf::IntRect ground(128, 64, 64, 64);
+    const sf::IntRect wallR(0, 0, 64, 64);
+    const sf::IntRect playerR(362, 248, 42, 59);
+    const sf::IntRect crateR(192, 0, 64, 64);
+    const sf::IntRect goalR(96, 384, 32, 32);
+    const sf::IntRect groundR(128, 64, 64, 64);
     int rows = g.getRows();
     int cols = g.getColumns();
     //set the boundaries of the grid to walls.
     for(int i = 0; i < rows; i++){
         for(int j = 0; j < cols; j++){
             if(i == 0 || j == 0 || i == rows-1 || j == cols-1){
-                g.setTexture(&texture, wall, i, j);
+                g.setTexture(&texture, wallR, i, j);
             }
         }
     }
+    sf::Sprite player(texture, playerR);
+    player.setOrigin(playerR.width/2, playerR.height/2);
+    player.setPosition(g.getCellCenter(1,1));
     
-    g.setTexture(&texture, player, 2, 4);
-    g.setTexture(&texture, goal, 2, 1);
+    sf::Sprite crate(texture, crateR);
+    crate.setOrigin(crateR.width/2, crateR.height/2);
+    crate.setPosition(g.getCellCenter(2, 2));
+    
+    sf::Sprite goal(texture, goalR);
+    goal.setOrigin(goalR.width/2, goalR.height/2);
+    goal.setPosition(g.getCellCenter(2, 1));
     
     sf::ContextSettings settings;
     settings.antialiasingLevel = 8;
@@ -52,22 +61,21 @@ int main(int argc, char** argv) {
                     window.close();
                     break;
                 }
-//                case (sf::Event::MouseMoved):{
-//                    float x = event.mouseMove.x;
-//                    float y = event.mouseMove.y;
-//                    circ.setPosition(x, y);
-//                    break;
-//                }
                 default:
                     break;
             }
         }
         window.clear(sf::Color::White);
-        
         g.draw(window);
+        window.draw(player);
+        window.draw(goal);
+        window.draw(crate);
         window.display();
     }
+    
+    
     return 0;
 }
+
 
 

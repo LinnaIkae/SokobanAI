@@ -9,6 +9,7 @@
  */
 
 #include <valarray>
+#include <SFML/Graphics/Shape.hpp>
 
 #include "Grid.h"
 
@@ -55,13 +56,19 @@ void Grid::draw(sf::RenderWindow& window){
 
 sf::RectangleShape& Grid::getCellAt(int row, int col){
     int index = row*columns+col;
-    cout << "index: " << index << endl;
+    //cout << "index: " << index << endl;
     return Cells.at(index);
 }
 
 void Grid::setTexture(const sf::Texture* txtr, sf::IntRect sr, int row, int col){
     sf:: RectangleShape& rect = getCellAt(row, col);
-    cout << "x: "<< rect.getPosition().x << ", y: " << rect.getPosition().y <<endl;
+    //cout << "x: "<< rect.getPosition().x << ", y: " << rect.getPosition().y <<endl;
     rect.setTexture(txtr);
     rect.setTextureRect(sr);
 }
+sf::Vector2f Grid::getCellCenter(int row, int col) {
+    float x = row * cellSize.x + cellSize.x/2;
+    float y = col * cellSize.y + cellSize.y/2;
+    return sf::Vector2f(x, y);
+    }
+
