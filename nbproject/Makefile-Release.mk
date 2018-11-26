@@ -35,7 +35,10 @@ OBJECTDIR=${CND_BUILDDIR}/${CND_CONF}/${CND_PLATFORM}
 
 # Object Files
 OBJECTFILES= \
+	${OBJECTDIR}/_ext/59a77b5e/BFS_Solver.o \
 	${OBJECTDIR}/_ext/59a77b5e/Grid.o \
+	${OBJECTDIR}/_ext/59a77b5e/Node.o \
+	${OBJECTDIR}/_ext/59a77b5e/Solver.o \
 	${OBJECTDIR}/main.o
 
 
@@ -63,10 +66,25 @@ ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/sokoban_sfml.exe: ${OBJECTFILES}
 	${MKDIR} -p ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}
 	${LINK.cc} -o ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/sokoban_sfml ${OBJECTFILES} ${LDLIBSOPTIONS}
 
+${OBJECTDIR}/_ext/59a77b5e/BFS_Solver.o: /C/Users/Lefa/Documents/NetBeansProjects/Sokoban_SFML/BFS_Solver.cpp
+	${MKDIR} -p ${OBJECTDIR}/_ext/59a77b5e
+	${RM} "$@.d"
+	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/_ext/59a77b5e/BFS_Solver.o /C/Users/Lefa/Documents/NetBeansProjects/Sokoban_SFML/BFS_Solver.cpp
+
 ${OBJECTDIR}/_ext/59a77b5e/Grid.o: /C/Users/Lefa/Documents/NetBeansProjects/Sokoban_SFML/Grid.cpp
 	${MKDIR} -p ${OBJECTDIR}/_ext/59a77b5e
 	${RM} "$@.d"
 	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/_ext/59a77b5e/Grid.o /C/Users/Lefa/Documents/NetBeansProjects/Sokoban_SFML/Grid.cpp
+
+${OBJECTDIR}/_ext/59a77b5e/Node.o: /C/Users/Lefa/Documents/NetBeansProjects/Sokoban_SFML/Node.cpp
+	${MKDIR} -p ${OBJECTDIR}/_ext/59a77b5e
+	${RM} "$@.d"
+	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/_ext/59a77b5e/Node.o /C/Users/Lefa/Documents/NetBeansProjects/Sokoban_SFML/Node.cpp
+
+${OBJECTDIR}/_ext/59a77b5e/Solver.o: /C/Users/Lefa/Documents/NetBeansProjects/Sokoban_SFML/Solver.cpp
+	${MKDIR} -p ${OBJECTDIR}/_ext/59a77b5e
+	${RM} "$@.d"
+	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/_ext/59a77b5e/Solver.o /C/Users/Lefa/Documents/NetBeansProjects/Sokoban_SFML/Solver.cpp
 
 ${OBJECTDIR}/main.o: main.cpp
 	${MKDIR} -p ${OBJECTDIR}

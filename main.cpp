@@ -1,63 +1,103 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/Window.hpp>
-#include <cstdlib>
 #include <iostream>
-#include <math.h>
-#include <valarray>
-#include <SFML/Graphics/Transformable.hpp>
-#include "Grid.h"
-using namespace std;
+#include <fstream>
+#include <string>
+#include "Grid.hpp"
+#include "Solver.hpp"
+#include "BFS_Solver.hpp"
 
 /*
  * 
  */
+
+sf::Sprite create_centered_Sprite(sf::Texture& texture, sf::IntRect rect) {
+    sf::Sprite spr(texture, rect);
+    spr.setOrigin(rect.width / 2, rect.height / 2);
+    return spr;
+}
+
 int main(int argc, char** argv) {
-    
-    Grid g = Grid(sf::Vector2f(60, 60), 5, 6);
-    sf::Texture texture;
-    if(!texture.loadFromFile("Spritesheet/sprites.png")){
-        cout << "failed loading texture file" << endl;
+
+    std::vector<std::string> input_strings;
+    std::string str;
+
+    std::ifstream input("C:/Users/Lefa/Documents/NetBeansProjects/Sokoban_SFML/dist/Debug/MinGW-Windows/sokoban.txt");
+    while (!input.is_open()) {
+        std::cout << "failed to open input file, exiting" << std::endl;
+        return -1;
     }
-    const sf::IntRect wallR(0, 0, 64, 64);
+    while (std::getline(input, str)) {
+        std::cout << str << std::endl;
+        input_strings.push_back(str);
+    }
+    Solver::parseInput(input_strings);
+    const int width = 600;
+    const int height = 600;
+    const int rows = 10;
+    const int cols = 10;
+    Grid g = Grid(sf::Vector2f(width / cols, height / rows), rows, cols);
+
+    //setting the input texturesheet and finding the used parts
+    sf::Texture texture;
+    if (!texture.loadFromFile("Spritesheet/sprites.png")) {
+        std::cout << "failed loading texture file" << std::endl;
+    }
+    const sf::IntRect wallR(0, 256, 64, 64);
     const sf::IntRect playerR(362, 248, 42, 59);
     const sf::IntRect crateR(192, 0, 64, 64);
-    const sf::IntRect goalR(96, 384, 32, 32);
-    const sf::IntRect groundR(128, 64, 64, 64);
-    int rows = g.getRows();
-    int cols = g.getColumns();
-    //set the boundaries of the grid to walls.
-    for(int i = 0; i < rows; i++){
-        for(int j = 0; j < cols; j++){
-            if(i == 0 || j == 0 || i == rows-1 || j == cols-1){
+    const sf::IntRect goalR(128, 384, 32, 32);
+    const sf::IntRect groundR(64, 256, 64, 64);
+
+    // Set the boundaries of the grid to walls and the rest to ground.
+    for (int i = 0; i < rows; i++) {
+        for (int j = 0; j < cols; j++) {
+            if (i == 0 || j == 0 || i == rows - 1 || j == cols - 1) {
                 g.setTexture(&texture, wallR, i, j);
+            } else {
+                g.setTexture(&texture, groundR, i, j);
             }
         }
     }
-    sf::Sprite player(texture, playerR);
-    player.setOrigin(playerR.width/2, playerR.height/2);
-    player.setPosition(g.getCellCenter(1,1));
-    
-    sf::Sprite crate(texture, crateR);
-    crate.setOrigin(crateR.width/2, crateR.height/2);
-    crate.setPosition(g.getCellCenter(2, 2));
-    
-    sf::Sprite goal(texture, goalR);
-    goal.setOrigin(goalR.width/2, goalR.height/2);
-    goal.setPosition(g.getCellCenter(2, 1));
-    
+    sf::Sprite player = create_centered_Sprite(texture, playerR);
+    sf::Sprite crate = create_centered_Sprite(texture, crateR);
+    sf::Sprite goal = create_centered_Sprite(texture, goalR);
+
+    std::vector<sf::Sprite> sprites = {
+        player, goal, crate
+    };
+
+    // It might be best to pass an array like this to the main loop from the
+    // solver every time a new state of game is calculated.
+    std::vector<int> player_pos = {1, 1};
+    std::vector<int> goal_pos = {
+        1, 1,
+        2, 2,
+        3, 4,
+        4, 8
+    };
+    std::vector<int> crate_pos = {
+        7, 1,
+        3, 2,
+        6, 4,
+        5, 8
+    };
+
+
     sf::ContextSettings settings;
     settings.antialiasingLevel = 8;
-    sf::RenderWindow window(sf::VideoMode(600, 600), "My window",
+    sf::RenderWindow window(sf::VideoMode(width, height), "My window",
             sf::Style::Default, settings);
-    
-    while (window.isOpen())
-    {
-        // check all the window's events that were triggered since the last iteration of the loop
+
+    window.setFramerateLimit(15);
+    while (window.isOpen()) {
+        // Check all the window's events that were triggered since the last 
+        // iteration of the loop.
         sf::Event event;
-        while (window.pollEvent(event))
-        {
-            switch (event.type){
-                case (sf::Event::Closed):{
+        while (window.pollEvent(event)) {
+            switch (event.type) {
+                case (sf::Event::Closed):
+                {
                     window.close();
                     break;
                 }
@@ -67,13 +107,18 @@ int main(int argc, char** argv) {
         }
         window.clear(sf::Color::White);
         g.draw(window);
-        window.draw(player);
-        window.draw(goal);
-        window.draw(crate);
+        for (unsigned i = 0; i < goal_pos.size() / 2; i++) {
+            g.drawSpriteAt(goal, window,
+                    goal_pos[2 * i], goal_pos[2 * i + 1]);
+        }
+        for (unsigned i = 0; i < crate_pos.size() / 2; i++) {
+            g.drawSpriteAt(crate, window,
+                    crate_pos[2 * i], crate_pos[2 * i + 1]);
+        }
         window.display();
     }
-    
-    
+
+
     return 0;
 }
 

@@ -4,7 +4,10 @@
     <logicalFolder name="HeaderFiles"
                    displayName="Header Files"
                    projectFiles="true">
-      <itemPath>C:/Users/Lefa/Documents/NetBeansProjects/Sokoban_SFML/Grid.h</itemPath>
+      <itemPath>C:/Users/Lefa/Documents/NetBeansProjects/Sokoban_SFML/BFS_Solver.hpp</itemPath>
+      <itemPath>C:/Users/Lefa/Documents/NetBeansProjects/Sokoban_SFML/Grid.hpp</itemPath>
+      <itemPath>C:/Users/Lefa/Documents/NetBeansProjects/Sokoban_SFML/Node.hpp</itemPath>
+      <itemPath>C:/Users/Lefa/Documents/NetBeansProjects/Sokoban_SFML/Solver.hpp</itemPath>
     </logicalFolder>
     <logicalFolder name="ResourceFiles"
                    displayName="Resource Files"
@@ -13,7 +16,10 @@
     <logicalFolder name="SourceFiles"
                    displayName="Source Files"
                    projectFiles="true">
+      <itemPath>C:/Users/Lefa/Documents/NetBeansProjects/Sokoban_SFML/BFS_Solver.cpp</itemPath>
       <itemPath>C:/Users/Lefa/Documents/NetBeansProjects/Sokoban_SFML/Grid.cpp</itemPath>
+      <itemPath>C:/Users/Lefa/Documents/NetBeansProjects/Sokoban_SFML/Node.cpp</itemPath>
+      <itemPath>C:/Users/Lefa/Documents/NetBeansProjects/Sokoban_SFML/Solver.cpp</itemPath>
       <itemPath>main.cpp</itemPath>
     </logicalFolder>
     <logicalFolder name="TestFiles"
@@ -28,6 +34,9 @@
       <itemPath>Makefile</itemPath>
     </logicalFolder>
   </logicalFolder>
+  <sourceRootList>
+    <Elem>C:\Users\Lefa\Documents\NetBeansProjects\Sokoban_SFML</Elem>
+  </sourceRootList>
   <projectmakefile>Makefile</projectmakefile>
   <confs>
     <conf name="Debug" type="1">
@@ -54,12 +63,42 @@
           </linkerLibItems>
         </linkerTool>
       </compileType>
+      <item path="C:/Users/Lefa/Documents/NetBeansProjects/Sokoban_SFML/BFS_Solver.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="C:/Users/Lefa/Documents/NetBeansProjects/Sokoban_SFML/BFS_Solver.hpp"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
       <item path="C:/Users/Lefa/Documents/NetBeansProjects/Sokoban_SFML/Grid.cpp"
             ex="false"
             tool="1"
             flavor2="0">
       </item>
-      <item path="C:/Users/Lefa/Documents/NetBeansProjects/Sokoban_SFML/Grid.h"
+      <item path="C:/Users/Lefa/Documents/NetBeansProjects/Sokoban_SFML/Grid.hpp"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="C:/Users/Lefa/Documents/NetBeansProjects/Sokoban_SFML/Node.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="C:/Users/Lefa/Documents/NetBeansProjects/Sokoban_SFML/Node.hpp"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="C:/Users/Lefa/Documents/NetBeansProjects/Sokoban_SFML/Solver.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="C:/Users/Lefa/Documents/NetBeansProjects/Sokoban_SFML/Solver.hpp"
             ex="false"
             tool="3"
             flavor2="0">
@@ -87,12 +126,42 @@
           <developmentMode>5</developmentMode>
         </asmTool>
       </compileType>
+      <item path="C:/Users/Lefa/Documents/NetBeansProjects/Sokoban_SFML/BFS_Solver.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="C:/Users/Lefa/Documents/NetBeansProjects/Sokoban_SFML/BFS_Solver.hpp"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
       <item path="C:/Users/Lefa/Documents/NetBeansProjects/Sokoban_SFML/Grid.cpp"
             ex="false"
             tool="1"
             flavor2="0">
       </item>
-      <item path="C:/Users/Lefa/Documents/NetBeansProjects/Sokoban_SFML/Grid.h"
+      <item path="C:/Users/Lefa/Documents/NetBeansProjects/Sokoban_SFML/Grid.hpp"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="C:/Users/Lefa/Documents/NetBeansProjects/Sokoban_SFML/Node.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="C:/Users/Lefa/Documents/NetBeansProjects/Sokoban_SFML/Node.hpp"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="C:/Users/Lefa/Documents/NetBeansProjects/Sokoban_SFML/Solver.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="C:/Users/Lefa/Documents/NetBeansProjects/Sokoban_SFML/Solver.hpp"
             ex="false"
             tool="3"
             flavor2="0">
