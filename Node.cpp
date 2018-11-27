@@ -7,8 +7,8 @@
 
 #include "Node.hpp"
 
-Node::Node(sf::Vector2i agent_, Node* parent_, std::vector<Edge> edges_out_) :
-agent(agent_), parent(parent_), edges_out(edges_out_) {
+Node::Node(Node* parent_, sf::Vector2i agent_, std::vector<sf::Vector2i> boxes_) :
+agent(agent_), parent(parent_), boxes(boxes_) {
 };
 
 Node::Node(const Node& orig) {
@@ -16,4 +16,5 @@ Node::Node(const Node& orig) {
 
 Node::~Node() {
 }
+
 

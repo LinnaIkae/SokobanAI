@@ -30,20 +30,20 @@ void Solver::logLocations() const {
 void Solver::parseInput(std::vector<std::string> lines) {
     this->rows = 0;
     this->columns = 0;
-    for (int y = 0; y < lines.size(); y++) {
+    for (unsigned y = 0; y < lines.size(); y++) {
         std::string line = lines[y];
-        if (line.length() > this->rows) {
+        if (line.length() > (unsigned) this->rows) {
             this->rows = line.length();
         }
         this->columns += 1;
         std::cout << "line of input: " << line << std::endl;
-        for (int x = 0; x < line.length(); x++) {
+        for (unsigned x = 0; x < line.length(); x++) {
             char c = line[x];
             sf::Vector2i coords(x, y);
             switch (c) {
                 case(' '):
                 {
-                    this->freeSpaces.push_back(coords);
+                    this->freeSpaces.insert(coords);
                     break;
                 }
                 case('#'):
@@ -52,33 +52,33 @@ void Solver::parseInput(std::vector<std::string> lines) {
                 }
                 case('$'):
                 {
-                    this->freeSpaces.push_back(coords);
+                    this->freeSpaces.insert(coords);
                     this->boxes.push_back(coords);
                     break;
                 }
                 case('*'):
                 {
-                    this->freeSpaces.push_back(coords);
+                    this->freeSpaces.insert(coords);
                     this->boxes.push_back(coords);
                     this->goals.push_back(coords);
                     break;
                 }
                 case('@'):
                 {
-                    this->freeSpaces.push_back(coords);
+                    this->freeSpaces.insert(coords);
                     this->agent = coords;
                     break;
                 }
 
                 case('.'):
                 {
-                    this->freeSpaces.push_back(coords);
+                    this->freeSpaces.insert(coords);
                     this->goals.push_back(coords);
                     break;
                 }
                 case('+'):
                 {
-                    this->freeSpaces.push_back(coords);
+                    this->freeSpaces.insert(coords);
                     this->agent = coords;
                     this->goals.push_back(coords);
                     break;
@@ -92,6 +92,31 @@ void Solver::parseInput(std::vector<std::string> lines) {
         }
     }
 }
+
+std::vector<Node> Solver::expandEdges(Node n) {
+    std::vector<Node> children;
+    sf::Vector2i mv_down = sf::Vector2i(0, 1) + n.agent;
+    sf::Vector2i mv_up = sf::Vector2i(0, -1) + n.agent;
+    sf::Vector2i mv_right = sf::Vector2i(1, 0) + n.agent;
+    sf::Vector2i mv_left = sf::Vector2i(-1, 0) + n.agent;
+    std::vector<sf::Vector2i> mvs = {mv_down, mv_up, mv_right, mv_left};
+
+    sf::Vector2i pu_down = sf::Vector2i(0, 2) + n.agent;
+    sf::Vector2i pu_up = sf::Vector2i(0, -2) + n.agent;
+    sf::Vector2i pu_right = sf::Vector2i(2, 0) + n.agent;
+    sf::Vector2i pu_left = sf::Vector2i(-2, 0) + n.agent;
+    std::vector<sf::Vector2i> pshs = {pu_down, pu_up, pu_right, pu_left};
+
+    //    for (auto mv : mvs) {
+    //        int search = freeSpaces.count(mv);
+    //        if (freeSpaces.count(mv) == 1) {
+    //            Node child(&n, mv, n.boxes);
+    //            children.push_back(child);
+    //        }
+    //    }
+    return children;
+}
+
 
 
 

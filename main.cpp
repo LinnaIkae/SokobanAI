@@ -31,10 +31,12 @@ int main(int argc, char** argv) {
     while (std::getline(input, str)) {
         input_strings.push_back(str);
     }
-    Solver s;
+    BFS_Solver s;
     s.parseInput(input_strings);
 
     s.logLocations();
+    Node n;
+    s.expandEdges(n);
 
 
 

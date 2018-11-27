@@ -18,10 +18,9 @@ struct Edge {
 class Node {
 public:
     Node();
+    Node(Node* parent_, sf::Vector2i agent_, std::vector<sf::Vector2i> boxes_);
     Node(const Node& orig);
     virtual ~Node();
-
-    Node(sf::Vector2i coord, Node* parent_, std::vector<Edge> edges_out_);
 
     int getDegree();
 
@@ -31,6 +30,7 @@ public:
     void removeEdges(std::vector<Edge> e);
 
     std::vector<Edge> getEdges_Out();
+
 
 public:
     sf::Vector2i agent;

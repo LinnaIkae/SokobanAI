@@ -12,6 +12,7 @@
 #include <string>
 #include "Node.hpp"
 #include <SFML/Graphics.hpp>
+#include <set>
 
 class Solver {
 public:
@@ -25,25 +26,18 @@ public:
 
     void parseInput(std::vector<std::string> lines);
 
-    void setColumns(int columns) {
-        this->columns = columns;
-    }
-
-    void setRows(int rows) {
-        this->rows = rows;
-    }
-
     void logLocations() const;
 
-    std::vector<Node> expandNode(Node n);
+    std::vector<Node> expandEdges(Node n);
 
 protected:
-    std::vector<sf::Vector2i> freeSpaces;
+    std::set<sf::Vector2i> freeSpaces;
     std::vector<sf::Vector2i> boxes;
     std::vector<sf::Vector2i> goals;
     sf::Vector2i agent;
     std::vector<Node> nodes;
 public:
     int rows, columns;
+
 
 };
