@@ -15,7 +15,7 @@ void Solver::logLocations() const {
 
     std::cout << "Free spaces (x, y)" << std::endl;
     for (auto v : this->freeSpaces) {
-        std::cout << v.x << ", " << v.y << std::endl;
+        std::cout << v.first << ", " << v.second << std::endl;
     }
     std::cout << "Boxes (x, y)" << std::endl;
     for (auto v : this->boxes) {
@@ -39,7 +39,8 @@ void Solver::parseInput(std::vector<std::string> lines) {
         std::cout << "line of input: " << line << std::endl;
         for (unsigned x = 0; x < line.length(); x++) {
             char c = line[x];
-            sf::Vector2i coords(x, y);
+            std::pair<int, int> coords(x, y);
+            sf::Vector2i coords_v(x, y);
             switch (c) {
                 case(' '):
                 {
@@ -53,34 +54,34 @@ void Solver::parseInput(std::vector<std::string> lines) {
                 case('$'):
                 {
                     this->freeSpaces.insert(coords);
-                    this->boxes.push_back(coords);
+                    this->boxes.push_back(coords_v);
                     break;
                 }
                 case('*'):
                 {
                     this->freeSpaces.insert(coords);
-                    this->boxes.push_back(coords);
-                    this->goals.push_back(coords);
+                    this->boxes.push_back(coords_v);
+                    this->goals.push_back(coords_v);
                     break;
                 }
                 case('@'):
                 {
                     this->freeSpaces.insert(coords);
-                    this->agent = coords;
+                    this->agent = coords_v;
                     break;
                 }
 
                 case('.'):
                 {
                     this->freeSpaces.insert(coords);
-                    this->goals.push_back(coords);
+                    this->goals.push_back(coords_v);
                     break;
                 }
                 case('+'):
                 {
                     this->freeSpaces.insert(coords);
-                    this->agent = coords;
-                    this->goals.push_back(coords);
+                    this->agent = coords_v;
+                    this->goals.push_back(coords_v);
                     break;
                 }
                 default:
@@ -107,13 +108,14 @@ std::vector<Node> Solver::expandEdges(Node n) {
     sf::Vector2i pu_left = sf::Vector2i(-2, 0) + n.agent;
     std::vector<sf::Vector2i> pshs = {pu_down, pu_up, pu_right, pu_left};
 
-    //    for (auto mv : mvs) {
-    //        int search = freeSpaces.count(mv);
-    //        if (freeSpaces.count(mv) == 1) {
-    //            Node child(&n, mv, n.boxes);
-    //            children.push_back(child);
-    //        }
-    //    }
+    for (auto mvv : mvs) {
+        std::pair<int, int> mv(mvv.x, mvv.y);
+        int search = freeSpaces.count(mv);
+        if (search == 1) {
+            Node child(&n, mvv, n.boxes);
+            children.push_back(child);
+        }
+    }
     return children;
 }
 

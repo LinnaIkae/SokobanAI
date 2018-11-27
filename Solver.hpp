@@ -31,7 +31,7 @@ public:
     std::vector<Node> expandEdges(Node n);
 
 protected:
-    std::set<sf::Vector2i> freeSpaces;
+    std::set<std::pair<int, int>> freeSpaces;
     std::vector<sf::Vector2i> boxes;
     std::vector<sf::Vector2i> goals;
     sf::Vector2i agent;
