@@ -1,11 +1,12 @@
+#pragma once
 /* 
  * File:   Node.hpp
  * Author: Lefa
  *
  * Created on 24. November 2018, 15:50
  */
-#pragma once
 #include <vector>
+#include <SFML/Graphics.hpp>
 
 class Node;
 
@@ -16,10 +17,11 @@ struct Edge {
 
 class Node {
 public:
+    Node();
     Node(const Node& orig);
     virtual ~Node();
 
-    Node(int x_, int y_, Node* parent_, std::vector<Edge> edges_out_);
+    Node(sf::Vector2i coord, Node* parent_, std::vector<Edge> edges_out_);
 
     int getDegree();
 
@@ -30,12 +32,10 @@ public:
 
     std::vector<Edge> getEdges_Out();
 
-private:
-    Node();
-
 public:
-    int x, y;
+    sf::Vector2i agent;
     Node* parent;
+    std::vector<sf::Vector2i> boxes;
     std::vector<Edge> edges_out;
 
 };

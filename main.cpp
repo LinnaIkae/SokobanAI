@@ -19,19 +19,26 @@ sf::Sprite create_centered_Sprite(sf::Texture& texture, sf::IntRect rect) {
 
 int main(int argc, char** argv) {
 
+
     std::vector<std::string> input_strings;
     std::string str;
 
-    std::ifstream input("C:/Users/Lefa/Documents/NetBeansProjects/Sokoban_SFML/dist/Debug/MinGW-Windows/sokoban.txt");
+    std::ifstream input("C:/Users/Lefa/Documents/NetBeansProjects/Sokoban_SFML/dist/Debug/MinGW-Windows/sokoban.sok");
     while (!input.is_open()) {
         std::cout << "failed to open input file, exiting" << std::endl;
         return -1;
     }
     while (std::getline(input, str)) {
-        std::cout << str << std::endl;
         input_strings.push_back(str);
     }
-    Solver::parseInput(input_strings);
+    Solver s;
+    s.parseInput(input_strings);
+
+    s.logLocations();
+
+
+
+
     const int width = 600;
     const int height = 600;
     const int rows = 10;

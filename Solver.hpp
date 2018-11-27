@@ -11,9 +11,9 @@
 #include <vector>
 #include <string>
 #include "Node.hpp"
+#include <SFML/Graphics.hpp>
 
 class Solver {
-private:
 public:
     Solver();
     Solver(const Solver& orig);
@@ -23,28 +23,27 @@ public:
         DOWN, UP, LEFT, RIGHT
     };
 
-    static void parseInput(std::vector<std::string> lines);
+    void parseInput(std::vector<std::string> lines);
 
     void setColumns(int columns) {
         this->columns = columns;
-    }
-
-    std::vector<int> getPositions() const {
-        return positions;
-    }
-
-    void setPositions(std::vector<int> positions) {
-        this->positions = positions;
     }
 
     void setRows(int rows) {
         this->rows = rows;
     }
 
+    void logLocations() const;
 
-private:
-    int rows, columns;
-    std::vector<int> positions;
+    std::vector<Node> expandNode(Node n);
+
+protected:
+    std::vector<sf::Vector2i> freeSpaces;
+    std::vector<sf::Vector2i> boxes;
+    std::vector<sf::Vector2i> goals;
+    sf::Vector2i agent;
     std::vector<Node> nodes;
+public:
+    int rows, columns;
 
 };

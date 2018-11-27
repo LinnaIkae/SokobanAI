@@ -15,13 +15,13 @@ CND_PACKAGE_DIR_Debug=dist/Debug/MinGW-Windows/package
 CND_PACKAGE_NAME_Debug=sokobansfml.tar
 CND_PACKAGE_PATH_Debug=dist/Debug/MinGW-Windows/package/sokobansfml.tar
 # Release configuration
-CND_PLATFORM_Release=MinGW-Windows
-CND_ARTIFACT_DIR_Release=dist/Release/MinGW-Windows
+CND_PLATFORM_Release=MinGW_1-Windows
+CND_ARTIFACT_DIR_Release=dist/Release/MinGW_1-Windows
 CND_ARTIFACT_NAME_Release=sokoban_sfml
-CND_ARTIFACT_PATH_Release=dist/Release/MinGW-Windows/sokoban_sfml
-CND_PACKAGE_DIR_Release=dist/Release/MinGW-Windows/package
+CND_ARTIFACT_PATH_Release=dist/Release/MinGW_1-Windows/sokoban_sfml
+CND_PACKAGE_DIR_Release=dist/Release/MinGW_1-Windows/package
 CND_PACKAGE_NAME_Release=sokobansfml.tar
-CND_PACKAGE_PATH_Release=dist/Release/MinGW-Windows/package/sokobansfml.tar
+CND_PACKAGE_PATH_Release=dist/Release/MinGW_1-Windows/package/sokobansfml.tar
 #
 # include compiler specific variables
 #
