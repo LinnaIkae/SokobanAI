@@ -31,14 +31,14 @@ int main(int argc, char** argv) {
     while (std::getline(input, str)) {
         input_strings.push_back(str);
     }
-    BFS_Solver s;
-    s.parseInput(input_strings);
+    BFS_Solver s(input_strings);
+    //s.parseInput(input_strings);
 
     s.logLocations();
     Node node(s.agent, (s.boxes));
     s.expandEdges(node);
 
-
+    std::cout << s.graphSearch() << std::endl;
 
 
     const int width = 600;

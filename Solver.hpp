@@ -17,6 +17,7 @@
 class Solver {
 public:
     Solver();
+    Solver(std::vector<std::string> lines);
     Solver(const Solver& orig);
     virtual ~Solver();
 
@@ -30,13 +31,16 @@ public:
 
     std::vector<Node> expandEdges(Node& n);
 
+    bool goalCheck(Node& node);
+
+    //virtual std::vector<std::string> printSolution();
 
 public:
     sf::Vector2i agent;
     std::set<std::pair<int, int>> freeSpaces;
     std::vector<sf::Vector2i> boxes;
     std::vector<sf::Vector2i> goals;
-    std::vector<Node> nodes;
+    std::vector<Node> fringe, closed;
     int rows, columns;
 
 

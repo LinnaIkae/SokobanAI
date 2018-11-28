@@ -5,6 +5,11 @@ Solver::Solver() :
 agent(0, 0) {
 }
 
+Solver::Solver(std::vector<std::string> lines) :
+agent(0, 0) {
+    this->parseInput(lines);
+}
+
 Solver::Solver(const Solver& orig) {
 }
 
@@ -97,6 +102,7 @@ void Solver::parseInput(std::vector<std::string> lines) {
 
 std::vector<Node> Solver::expandEdges(Node& n) {
     std::vector<Node> children;
+    children.reserve(4);
     sf::Vector2i mv_down(0, 1);
     sf::Vector2i mv_up(0, -1);
     sf::Vector2i mv_right(1, 0);
@@ -111,21 +117,25 @@ std::vector<Node> Solver::expandEdges(Node& n) {
 
     for (unsigned i = 0; i < mvs.size(); i++) {
         sf::Vector2i mvv = mvs[i] + n.agent;
-        int moveBox = std::count(n.boxes.begin(), n.boxes.end(), mvv);
-        if (moveBox == 1) {
+        int neighbor_has_box = std::count(n.boxes.begin(), n.boxes.end(), mvv);
+
+        if (neighbor_has_box == 1) {
             // Neighbor tile contains a box
             sf::Vector2i push = pshs[i];
             std::pair<int, int> pushp(push.x, push.y);
-            int pushBox = std::count(n.boxes.begin(), n.boxes.end(), push);
-            int pushFree = this->freeSpaces.count(pushp);
-            if (pushFree == 1 && pushBox == 0) {
+            bool box_is_blocking = std::find(n.boxes.begin(), n.boxes.end(),
+                    push) != boxes.end();
+
+            int behind_is_free = this->freeSpaces.count(pushp);
+
+            if (behind_is_free == 1 && !box_is_blocking) {
                 Node child(mvv, n.boxes, &n);
                 children.push_back(child);
                 std::cout << "adding push: " << mvv.x << ", " << mvv.y << " " <<
                         pushp.first << ", " << pushp.second << std::endl;
             }
         } else {
-            //Neigbor tile can be moved to.
+            //Neigbor tile has no box.
             std::pair<int, int> mv(mvv.x, mvv.y);
             int moveFree = this->freeSpaces.count(mv);
             if (moveFree == 1) {
@@ -136,6 +146,12 @@ std::vector<Node> Solver::expandEdges(Node& n) {
         }
     }
     return children;
+}
+
+bool Solver::goalCheck(Node& node) {
+    if (std::find(goals.begin(), goals.end(), node.agent) != goals.end()) {
+        return true;
+    } else return false;
 }
 
 

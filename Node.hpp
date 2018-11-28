@@ -24,6 +24,9 @@ public:
     //    void removeEdges(std::vector<Edge> e);
     //std::vector<Edge> getEdges_Out();
 
+    bool operator==(const Node& rhs) const {
+        return (agent == rhs.agent && boxes == rhs.boxes);
+    }
 
 public:
     sf::Vector2i agent;
