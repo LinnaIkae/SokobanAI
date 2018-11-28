@@ -1,7 +1,8 @@
 #include "Solver.hpp"
 #include <iostream>
 
-Solver::Solver() {
+Solver::Solver() :
+agent(0, 0) {
 }
 
 Solver::Solver(const Solver& orig) {
@@ -36,7 +37,7 @@ void Solver::parseInput(std::vector<std::string> lines) {
             this->rows = line.length();
         }
         this->columns += 1;
-        std::cout << "line of input: " << line << std::endl;
+        std::cout << line << std::endl;
         for (unsigned x = 0; x < line.length(); x++) {
             char c = line[x];
             std::pair<int, int> coords(x, y);
@@ -94,12 +95,12 @@ void Solver::parseInput(std::vector<std::string> lines) {
     }
 }
 
-std::vector<Node> Solver::expandEdges(Node n) {
+std::vector<Node> Solver::expandEdges(Node& n) {
     std::vector<Node> children;
-    sf::Vector2i mv_down = sf::Vector2i(0, 1) + n.agent;
-    sf::Vector2i mv_up = sf::Vector2i(0, -1) + n.agent;
-    sf::Vector2i mv_right = sf::Vector2i(1, 0) + n.agent;
-    sf::Vector2i mv_left = sf::Vector2i(-1, 0) + n.agent;
+    sf::Vector2i mv_down(0, 1);
+    sf::Vector2i mv_up(0, -1);
+    sf::Vector2i mv_right(1, 0);
+    sf::Vector2i mv_left(-1, 0);
     std::vector<sf::Vector2i> mvs = {mv_down, mv_up, mv_right, mv_left};
 
     sf::Vector2i pu_down = sf::Vector2i(0, 2) + n.agent;
@@ -109,11 +110,13 @@ std::vector<Node> Solver::expandEdges(Node n) {
     std::vector<sf::Vector2i> pshs = {pu_down, pu_up, pu_right, pu_left};
 
     for (auto mvv : mvs) {
+        mvv = mvv + n.agent;
         std::pair<int, int> mv(mvv.x, mvv.y);
-        int search = freeSpaces.count(mv);
+        int search = this->freeSpaces.count(mv);
         if (search == 1) {
-            Node child(&n, mvv, n.boxes);
+            Node child(mvv, n.boxes, &n);
             children.push_back(child);
+            std::cout << "adding move: " << mv.first << ", " << mv.second << std::endl;
         }
     }
     return children;

@@ -35,8 +35,8 @@ int main(int argc, char** argv) {
     s.parseInput(input_strings);
 
     s.logLocations();
-    Node n;
-    s.expandEdges(n);
+    Node node(s.agent, (s.boxes));
+    s.expandEdges(node);
 
 
 
@@ -92,40 +92,40 @@ int main(int argc, char** argv) {
         5, 8
     };
 
-
-    sf::ContextSettings settings;
-    settings.antialiasingLevel = 8;
-    sf::RenderWindow window(sf::VideoMode(width, height), "My window",
-            sf::Style::Default, settings);
-
-    window.setFramerateLimit(15);
-    while (window.isOpen()) {
-        // Check all the window's events that were triggered since the last 
-        // iteration of the loop.
-        sf::Event event;
-        while (window.pollEvent(event)) {
-            switch (event.type) {
-                case (sf::Event::Closed):
-                {
-                    window.close();
-                    break;
-                }
-                default:
-                    break;
-            }
-        }
-        window.clear(sf::Color::White);
-        g.draw(window);
-        for (unsigned i = 0; i < goal_pos.size() / 2; i++) {
-            g.drawSpriteAt(goal, window,
-                    goal_pos[2 * i], goal_pos[2 * i + 1]);
-        }
-        for (unsigned i = 0; i < crate_pos.size() / 2; i++) {
-            g.drawSpriteAt(crate, window,
-                    crate_pos[2 * i], crate_pos[2 * i + 1]);
-        }
-        window.display();
-    }
+    //
+    //    sf::ContextSettings settings;
+    //    settings.antialiasingLevel = 8;
+    //    sf::RenderWindow window(sf::VideoMode(width, height), "My window",
+    //            sf::Style::Default, settings);
+    //
+    //    window.setFramerateLimit(15);
+    //    while (window.isOpen()) {
+    //        // Check all the window's events that were triggered since the last 
+    //        // iteration of the loop.
+    //        sf::Event event;
+    //        while (window.pollEvent(event)) {
+    //            switch (event.type) {
+    //                case (sf::Event::Closed):
+    //                {
+    //                    window.close();
+    //                    break;
+    //                }
+    //                default:
+    //                    break;
+    //            }
+    //        }
+    //        window.clear(sf::Color::White);
+    //        g.draw(window);
+    //        for (unsigned i = 0; i < goal_pos.size() / 2; i++) {
+    //            g.drawSpriteAt(goal, window,
+    //                    goal_pos[2 * i], goal_pos[2 * i + 1]);
+    //        }
+    //        for (unsigned i = 0; i < crate_pos.size() / 2; i++) {
+    //            g.drawSpriteAt(crate, window,
+    //                    crate_pos[2 * i], crate_pos[2 * i + 1]);
+    //        }
+    //        window.display();
+    //    }
 
 
     return 0;

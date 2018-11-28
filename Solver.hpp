@@ -28,15 +28,15 @@ public:
 
     void logLocations() const;
 
-    std::vector<Node> expandEdges(Node n);
+    std::vector<Node> expandEdges(Node& n);
 
-protected:
+
+public:
+    sf::Vector2i agent;
     std::set<std::pair<int, int>> freeSpaces;
     std::vector<sf::Vector2i> boxes;
     std::vector<sf::Vector2i> goals;
-    sf::Vector2i agent;
     std::vector<Node> nodes;
-public:
     int rows, columns;
 
 

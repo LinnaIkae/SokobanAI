@@ -10,7 +10,11 @@
 Node::Node() {
 }
 
-Node::Node(Node* parent_, sf::Vector2i agent_, std::vector<sf::Vector2i> boxes_) :
+Node::Node(sf::Vector2i agent_, std::vector<sf::Vector2i> boxes_) :
+agent(agent_), parent(nullptr), boxes(boxes_) {
+};
+
+Node::Node(sf::Vector2i agent_, std::vector<sf::Vector2i> boxes_, Node* parent_) :
 agent(agent_), parent(parent_), boxes(boxes_) {
 };
 
