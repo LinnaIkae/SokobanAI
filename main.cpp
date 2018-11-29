@@ -23,7 +23,8 @@ int main(int argc, char** argv) {
     std::vector<std::string> input_strings;
     std::string str;
 
-    std::ifstream input("C:/Users/Lefa/Documents/NetBeansProjects/Sokoban_SFML/levels/connection.sok");
+    std::ifstream input("C:/Users/Lefa/Documents/NetBeansProjects/Sokoban_SFML/"
+            "levels/simple.sok");
     while (!input.is_open()) {
         std::cout << "failed to open input file, exiting" << std::endl;
         return -1;
@@ -36,7 +37,6 @@ int main(int argc, char** argv) {
 
     s.logLocations();
     Node node(s.agent, (s.boxes));
-    s.expandEdges(node);
 
     std::cout << s.graphSearch() << std::endl;
 

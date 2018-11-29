@@ -10,8 +10,8 @@
 
 class Node {
 private:
-    Node();
 public:
+    Node();
     Node(sf::Vector2i agent_, std::vector<sf::Vector2i> boxes_);
     Node(sf::Vector2i agent_, std::vector<sf::Vector2i> boxes_, Node* parent_);
     Node(const Node& orig);

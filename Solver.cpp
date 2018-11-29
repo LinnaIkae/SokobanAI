@@ -6,7 +6,7 @@ agent(0, 0) {
 }
 
 Solver::Solver(std::vector<std::string> lines) :
-agent(0, 0) {
+agent(0, 0), fringe(std::vector<Node>(0)) {
     this->parseInput(lines);
 }
 
@@ -29,6 +29,7 @@ void Solver::logLocations() const {
     }
     std::cout << "Goals (x, y)" << std::endl;
     for (auto v : this->goals) {
+
         std::cout << v.x << ", " << v.y << std::endl;
     }
 }
@@ -100,7 +101,7 @@ void Solver::parseInput(std::vector<std::string> lines) {
     }
 }
 
-std::vector<Node> Solver::expandEdges(Node& n) {
+std::vector<Node> Solver::expandEdges(Node& node) {
     std::vector<Node> children;
     children.reserve(4);
     sf::Vector2i mv_down(0, 1);
@@ -109,27 +110,28 @@ std::vector<Node> Solver::expandEdges(Node& n) {
     sf::Vector2i mv_left(-1, 0);
     std::vector<sf::Vector2i> mvs = {mv_down, mv_up, mv_right, mv_left};
 
-    sf::Vector2i pu_down = sf::Vector2i(0, 2) + n.agent;
-    sf::Vector2i pu_up = sf::Vector2i(0, -2) + n.agent;
-    sf::Vector2i pu_right = sf::Vector2i(2, 0) + n.agent;
-    sf::Vector2i pu_left = sf::Vector2i(-2, 0) + n.agent;
+    sf::Vector2i pu_down = sf::Vector2i(0, 2) + node.agent;
+    sf::Vector2i pu_up = sf::Vector2i(0, -2) + node.agent;
+    sf::Vector2i pu_right = sf::Vector2i(2, 0) + node.agent;
+    sf::Vector2i pu_left = sf::Vector2i(-2, 0) + node.agent;
     std::vector<sf::Vector2i> pshs = {pu_down, pu_up, pu_right, pu_left};
 
     for (unsigned i = 0; i < mvs.size(); i++) {
-        sf::Vector2i mvv = mvs[i] + n.agent;
-        int neighbor_has_box = std::count(n.boxes.begin(), n.boxes.end(), mvv);
+        sf::Vector2i mvv = mvs[i] + node.agent;
+        int neighbor_has_box = std::count(node.boxes.begin(), node.boxes.end(), mvv);
 
         if (neighbor_has_box == 1) {
             // Neighbor tile contains a box
             sf::Vector2i push = pshs[i];
             std::pair<int, int> pushp(push.x, push.y);
-            bool box_is_blocking = std::find(n.boxes.begin(), n.boxes.end(),
-                    push) != boxes.end();
+            //error happening here
+            int box_is_blocking = (std::count(node.boxes.begin(), node.boxes.end(),
+                    push));
 
             int behind_is_free = this->freeSpaces.count(pushp);
 
-            if (behind_is_free == 1 && !box_is_blocking) {
-                Node child(mvv, n.boxes, &n);
+            if (behind_is_free == 1 && box_is_blocking == 0) {
+                Node child(mvv, node.boxes, &node);
                 children.push_back(child);
                 std::cout << "adding push: " << mvv.x << ", " << mvv.y << " " <<
                         pushp.first << ", " << pushp.second << std::endl;
@@ -139,7 +141,8 @@ std::vector<Node> Solver::expandEdges(Node& n) {
             std::pair<int, int> mv(mvv.x, mvv.y);
             int moveFree = this->freeSpaces.count(mv);
             if (moveFree == 1) {
-                Node child(mvv, n.boxes, &n);
+
+                Node child(mvv, node.boxes, &node);
                 children.push_back(child);
                 std::cout << "adding move: " << mv.first << ", " << mv.second << std::endl;
             }
@@ -149,9 +152,18 @@ std::vector<Node> Solver::expandEdges(Node& n) {
 }
 
 bool Solver::goalCheck(Node& node) {
-    if (std::find(goals.begin(), goals.end(), node.agent) != goals.end()) {
+    int goals_satisfied = 0;
+    int box_in_goal;
+    for (auto goal : goals) {
+        box_in_goal = std::count(node.boxes.begin(), node.boxes.end(),
+                goal);
+        goals_satisfied += box_in_goal;
+    }
+
+    if (goals_satisfied == goals.size()) {
         return true;
     } else return false;
+
 }
 
 
