@@ -124,6 +124,7 @@ std::vector<Node> Solver::expandEdges(Node& node) {
             // Neighbor tile contains a box
             sf::Vector2i push = pshs[i];
             std::pair<int, int> pushp(push.x, push.y);
+
             //error happening here
             int box_is_blocking = (std::count(node.boxes.begin(), node.boxes.end(),
                     push));
@@ -131,7 +132,18 @@ std::vector<Node> Solver::expandEdges(Node& node) {
             int behind_is_free = this->freeSpaces.count(pushp);
 
             if (behind_is_free == 1 && box_is_blocking == 0) {
-                Node child(mvv, node.boxes, &node);
+                std::vector<sf::Vector2i> newBoxes = node.boxes;
+                std::vector<sf::Vector2i>::iterator box_it = std::find(
+                        newBoxes.begin(), newBoxes.end(), mvv);
+
+                newBoxes.erase(box_it);
+                newBoxes.push_back(push);
+                for (int i = 0; i < newBoxes.size(); i++) {
+                    std::cout << "Old box: " << node.boxes[i].x << node.boxes[i].y << std::endl;
+                    std::cout << "New box: " << newBoxes[i].x << newBoxes[i].y << std::endl;
+                }
+
+                Node child(mvv, newBoxes, &node);
                 children.push_back(child);
                 std::cout << "adding push: " << mvv.x << ", " << mvv.y << " " <<
                         pushp.first << ", " << pushp.second << std::endl;
@@ -152,6 +164,7 @@ std::vector<Node> Solver::expandEdges(Node& node) {
 }
 
 bool Solver::goalCheck(Node& node) {
+    // This seems to be working.
     int goals_satisfied = 0;
     int box_in_goal;
     for (auto goal : goals) {
@@ -163,6 +176,23 @@ bool Solver::goalCheck(Node& node) {
     if (goals_satisfied == goals.size()) {
         return true;
     } else return false;
+
+}
+
+std::vector<Node*> Solver::retracePath(Node* node) const {
+    std::vector<Node*> steps;
+    while ((*node).parent != NULL) {
+        steps.push_back(node);
+        std::cout << "Pointer before: " << node << "Parent: " << node->parent << std::endl;
+        node = (*node).parent;
+        std::cout << "pointer after: " << node << "Parent: " << node->parent << std::endl;
+        return steps;
+        //std::cout << (*node).agent.x << (*node).agent.y << std::endl;
+        //std::cout << (*(*node).parent).agent.x << (*(*node).parent).agent.y << std::endl;
+    }
+    return steps;
+
+
 
 }
 

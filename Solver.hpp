@@ -33,7 +33,7 @@ public:
 
     bool goalCheck(Node& node);
 
-    //virtual std::vector<std::string> printSolution();
+    std::vector<Node*> retracePath(Node* node) const;
 
 public:
     sf::Vector2i agent;

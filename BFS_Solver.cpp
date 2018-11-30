@@ -18,14 +18,15 @@ bool BFS_Solver::graphSearch() {
     Node current(this->agent, this->boxes);
     fringe.clear();
     this->fringe.push_back(current);
-    std::cout << "Fringe size: " << this->fringe.size() << std::endl;
-    for (auto nnn : this->fringe) {
-        std::cout << "first" << nnn.agent.x << nnn.agent.y << std::endl;
-    }
-    //std::cout << "Fringe size after for: " << this->fringe.size() << std::endl;
+
 
     while (true) {
-        //std::cout << "Fringe size inside while: " << this->fringe.size() << std::endl;
+        //        std::cout << "Fringe,  size: " << this->fringe.size() << std::endl;
+        //        for (auto nnn : this->fringe) {
+        //            std::cout << "Node: " << nnn.agent.x << nnn.agent.y << std::endl;
+        //            std::cout << "box[0]: " << nnn.boxes[0].x << nnn.boxes[0].y << "\n"
+        //                    << std::endl;
+        //        }
 
         if (this->fringe.empty()) {
             std::cout << "Failed to find solution" << std::endl;
@@ -36,7 +37,10 @@ bool BFS_Solver::graphSearch() {
         Node current2(temp);
 
         if (goalCheck(current2)) {
-            //printSolution();
+            for (auto n : retracePath(&current2)) {
+                std::cout << "node on the path: " << (*n).agent.x << (*n).agent.y << std::endl;
+            }
+
             return true;
 
         }
@@ -47,8 +51,9 @@ bool BFS_Solver::graphSearch() {
                     fringe.begin(), fringe.end(), current2);
 
             fringe.erase(fringe_it);
+
             std::vector<Node> children = this->expandEdges(current2);
-            //this expandEdges is not working.
+
             fringe.insert(fringe.end(), children.begin(), children.end());
 
         } else {
