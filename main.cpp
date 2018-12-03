@@ -8,12 +8,6 @@
 #include "BFS_Solver.hpp"
 #include "DFS_Solver.hpp"
 
-/*
- * 
- */
-
-
-
 int main(int argc, char** argv) {
 
 
@@ -21,7 +15,9 @@ int main(int argc, char** argv) {
     std::string str;
 
     std::ifstream input("C:/Users/Lefa/Documents/NetBeansProjects/Sokoban_SFML/"
-            "levels/easy.sok");
+            "levels/sokoban.sok");
+
+    //DONT USE sokoban2.sok before you fix the col and row stuff below.
     while (!input.is_open()) {
         std::cout << "failed to open input file, exiting" << std::endl;
         return -1;
@@ -33,22 +29,14 @@ int main(int argc, char** argv) {
 
     s.logLocations();
 
-    //    Node node(s.agent, (s.boxes));
-    //
-    //    std::cout << s.graphSearch() << std::endl;
 
-
-    const int width = 600;
-    const int height = 600;
-    const int rows = 10;
-    const int cols = 10;
+    //for now keeping these constant seems to work and trying to make the window
+    //adapt is a mess I don't want to get into again for a while.
+    const int rows = 10; //s.rows;
+    const int cols = 10; //s.columns;
+    const int width = 600; //80 * cols; //values lower than 60 make sprites not fit
+    const int height = 600; //80 * rows;
     Grid g = Grid(sf::Vector2f(width / cols, height / rows), rows, cols, s);
-
-
-
-    // It might be best to pass an array like this to the main loop from the
-    // solver every time a new state of game is calculated.
-
 
 
     sf::ContextSettings settings;
@@ -74,9 +62,8 @@ int main(int argc, char** argv) {
 
         window.display();
 
-
-
         //this could be done in a more sensible way...
+
         s.graphSearch(g, window);
         std::cout << "Type anything to end the program: >";
         char* in = "   ";

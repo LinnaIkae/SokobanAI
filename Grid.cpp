@@ -3,7 +3,7 @@
 #include <set>
 
 Grid::Grid(sf::Vector2f s_cell, unsigned rows_, unsigned columns_, Solver& s) :
-cell_size(s_cell), rows(rows_), columns(columns_) {
+cell_size(s_cell), rows(rows_ + 1), columns(columns_) {
     std::vector<sf::Vector2f> cellPosit;
     for (int i = 0; i < rows; i++) {
         for (int j = 0; j < columns; j++) {
@@ -15,6 +15,8 @@ cell_size(s_cell), rows(rows_), columns(columns_) {
         rect.setPosition(pos);
         cells.push_back(rect);
     }
+
+
 
     //setting the input texturesheet and finding the used parts
     if (!texture.loadFromFile("Spritesheet/sprites.png")) {
@@ -35,9 +37,12 @@ cell_size(s_cell), rows(rows_), columns(columns_) {
         goal_pos.push_back(goal.y);
     }
 
+    //the vector range check is failing for this...
     for (auto w_pair : walls) {
+        //std::cout << w_pair.first << w_pair.second << std::endl;
         this->setTexture(&texture, wallR, w_pair.first, w_pair.second);
     }
+
     for (auto g_pair : freeSpaces) {
         this->setTexture(&texture, groundR, g_pair.first, g_pair.second);
     }

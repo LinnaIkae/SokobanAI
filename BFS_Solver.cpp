@@ -1,5 +1,8 @@
 #include "BFS_Solver.hpp"
 #include "Grid.hpp"
+#include <chrono>
+
+using namespace std::chrono;
 
 BFS_Solver::BFS_Solver() {
 };
@@ -27,6 +30,7 @@ Node BFS_Solver::popFringe() {
 
 bool BFS_Solver::graphSearch(Grid& g, sf::RenderWindow& window) {
 
+    auto start = std::chrono::high_resolution_clock::now();
     Node current(this->agent, this->boxes);
     g.draw(window, current);
     fringe.clear();
@@ -44,6 +48,9 @@ bool BFS_Solver::graphSearch(Grid& g, sf::RenderWindow& window) {
 
         if (this->fringe.empty()) {
             std::cout << "Failed to find solution" << std::endl;
+            auto stop = std::chrono::high_resolution_clock::now();
+            auto duration = std::chrono::duration_cast<milliseconds>(stop - start);
+            std::cout << "Time(ms) :" << duration.count() << std::endl;
             return false;
         }
 
@@ -61,7 +68,9 @@ bool BFS_Solver::graphSearch(Grid& g, sf::RenderWindow& window) {
             for (auto n : retracePath(&current)) {
                 std::cout << "node on the path: " << (*n).agent.x << (*n).agent.y << std::endl;
             }
-
+            auto stop = std::chrono::high_resolution_clock::now();
+            auto duration = std::chrono::duration_cast<milliseconds>(stop - start);
+            std::cout << "Time(ms) :" << duration.count() << std::endl;
             return true;
 
         }

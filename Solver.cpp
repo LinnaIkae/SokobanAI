@@ -40,10 +40,10 @@ void Solver::parseInput(std::vector<std::string> lines) {
     for (unsigned y = 0; y < lines.size(); y++) {
         bool hit_left_wall = false;
         std::string line = lines[y];
-        if (line.length() > (unsigned) this->rows) {
-            this->rows = line.length();
+        if (line.length() > (unsigned) this->columns) {
+            this->columns = line.length();
         }
-        this->columns += 1;
+        this->rows += 1;
         std::cout << line << std::endl;
 
         for (unsigned x = 0; x < line.length(); x++) {
