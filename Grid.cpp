@@ -1,7 +1,8 @@
 #include "Grid.hpp"
 #include <iostream>
+#include <set>
 
-Grid::Grid(sf::Vector2f s_cell, unsigned rows_, unsigned columns_) :
+Grid::Grid(sf::Vector2f s_cell, unsigned rows_, unsigned columns_, Solver& s) :
 cell_size(s_cell), rows(rows_), columns(columns_) {
     std::vector<sf::Vector2f> cellPosit;
     for (int i = 0; i < rows; i++) {
@@ -13,8 +14,38 @@ cell_size(s_cell), rows(rows_), columns(columns_) {
         sf::RectangleShape rect(cell_size);
         rect.setPosition(pos);
         cells.push_back(rect);
-        //std::cout<<"Size of Cells: "<<Cells.size()<<endl;
     }
+
+    //setting the input texturesheet and finding the used parts
+    if (!texture.loadFromFile("Spritesheet/sprites.png")) {
+        std::cout << "failed loading texture file" << std::endl;
+    }
+    wallR = sf::IntRect(0, 256, 64, 64);
+    playerR = sf::IntRect(362, 248, 42, 59);
+    crateR = sf::IntRect(192, 0, 64, 64);
+    goalR = sf::IntRect(128, 384, 32, 32);
+    groundR = sf::IntRect(64, 256, 64, 64);
+
+    std::set<std::pair<int, int>> walls = s.walls;
+    std::set<std::pair<int, int>> freeSpaces = s.freeSpaces;
+    std::vector<sf::Vector2i> goals = s.goals;
+
+    for (auto goal : goals) {
+        goal_pos.push_back(goal.x);
+        goal_pos.push_back(goal.y);
+    }
+
+    for (auto w_pair : walls) {
+        this->setTexture(&texture, wallR, w_pair.first, w_pair.second);
+    }
+    for (auto g_pair : freeSpaces) {
+        this->setTexture(&texture, groundR, g_pair.first, g_pair.second);
+    }
+
+    player = create_centered_Sprite(texture, playerR);
+    crate = create_centered_Sprite(texture, crateR);
+    goal = create_centered_Sprite(texture, goalR);
+
 }
 
 Grid::Grid() {
@@ -38,10 +69,36 @@ sf::Vector2f Grid::getCellPos(sf::Vector2f vec) const {
     return sf::Vector2f(posx, posy);
 }
 
-void Grid::draw(sf::RenderWindow& window) const {
+void Grid::draw(sf::RenderWindow& window, Node& node) {
+
+    window.clear(sf::Color::White);
+
+    // Drawing the static playfield:
     for (const auto& rect : cells) {
         window.draw(rect);
     }
+    std::vector<int> crate_pos;
+
+    // Drawing all the sprites: 
+
+    for (auto box : node.boxes) {
+        crate_pos.push_back(box.x);
+        crate_pos.push_back(box.y);
+    }
+
+    drawSpriteAt(player, window, node.agent.x, node.agent.y);
+
+    for (unsigned i = 0; i < crate_pos.size() / 2; i++) {
+        drawSpriteAt(crate, window,
+                crate_pos[2 * i], crate_pos[2 * i + 1]);
+    }
+
+    for (unsigned i = 0; i < goal_pos.size() / 2; i++) {
+        drawSpriteAt(goal, window,
+                goal_pos[2 * i], goal_pos[2 * i + 1]);
+    }
+
+    window.display();
 }
 
 sf::RectangleShape& Grid::getCellAt(unsigned row, unsigned col) {
@@ -64,11 +121,17 @@ sf::Vector2f Grid::getCellCenter(unsigned row, unsigned col) const {
 }
 
 void Grid::drawSpriteAt(sf::Sprite& sprite, sf::RenderWindow& window,
-        unsigned row, unsigned col) const {
+        unsigned row, unsigned col) {
     if (row == 0 || col == 0 || row == rows || col == columns)
         std::cout << "Warning: You are placing a sprite on the outside wall."
             << std::endl;
     sprite.setPosition(getCellCenter(row, col));
     window.draw(sprite);
+}
+
+sf::Sprite Grid::create_centered_Sprite(sf::Texture& texture, sf::IntRect rect) {
+    sf::Sprite spr(texture, rect);
+    spr.setOrigin(rect.width / 2, rect.height / 2);
+    return spr;
 }
 

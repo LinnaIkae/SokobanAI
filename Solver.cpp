@@ -38,12 +38,14 @@ void Solver::parseInput(std::vector<std::string> lines) {
     this->rows = 0;
     this->columns = 0;
     for (unsigned y = 0; y < lines.size(); y++) {
+        bool hit_left_wall = false;
         std::string line = lines[y];
         if (line.length() > (unsigned) this->rows) {
             this->rows = line.length();
         }
         this->columns += 1;
         std::cout << line << std::endl;
+
         for (unsigned x = 0; x < line.length(); x++) {
             char c = line[x];
             std::pair<int, int> coords(x, y);
@@ -51,11 +53,15 @@ void Solver::parseInput(std::vector<std::string> lines) {
             switch (c) {
                 case(' '):
                 {
-                    this->freeSpaces.insert(coords);
+                    if (hit_left_wall) {
+                        this->freeSpaces.insert(coords);
+                    }
                     break;
                 }
                 case('#'):
                 {
+                    hit_left_wall = true;
+                    this->walls.insert(coords);
                     break;
                 }
                 case('$'):
@@ -138,15 +144,15 @@ std::vector<Node> Solver::expandEdges(Node& node) {
 
                 newBoxes.erase(box_it);
                 newBoxes.push_back(push);
-                for (int i = 0; i < newBoxes.size(); i++) {
-                    std::cout << "Old box: " << node.boxes[i].x << node.boxes[i].y << std::endl;
-                    std::cout << "New box: " << newBoxes[i].x << newBoxes[i].y << std::endl;
-                }
+                //                for (int i = 0; i < newBoxes.size(); i++) {
+                //                    std::cout << "Old box: " << node.boxes[i].x << node.boxes[i].y << std::endl;
+                //                    std::cout << "New box: " << newBoxes[i].x << newBoxes[i].y << std::endl;
+                //                }
 
                 Node child(mvv, newBoxes, &node);
                 children.push_back(child);
-                std::cout << "adding push: " << mvv.x << ", " << mvv.y << " " <<
-                        pushp.first << ", " << pushp.second << std::endl;
+                //std::cout << "adding push: " << mvv.x << ", " << mvv.y << " " <<
+                //        pushp.first << ", " << pushp.second << std::endl;
             }
         } else {
             //Neigbor tile has no box.
@@ -156,7 +162,7 @@ std::vector<Node> Solver::expandEdges(Node& node) {
 
                 Node child(mvv, node.boxes, &node);
                 children.push_back(child);
-                std::cout << "adding move: " << mv.first << ", " << mv.second << std::endl;
+                //std::cout << "adding move: " << mv.first << ", " << mv.second << std::endl;
             }
         }
     }
@@ -180,21 +186,20 @@ bool Solver::goalCheck(Node& node) {
 }
 
 std::vector<Node*> Solver::retracePath(Node* node) const {
+
+
+    //might be best to also or only return the path in LUDR - format
+
     std::vector<Node*> steps;
     while ((*node).parent != NULL) {
         steps.push_back(node);
-        std::cout << "Pointer before: " << node << "Parent: " << node->parent << std::endl;
+        node->debugPrint();
         node = (*node).parent;
-        std::cout << "pointer after: " << node << "Parent: " << node->parent << std::endl;
         return steps;
-        //std::cout << (*node).agent.x << (*node).agent.y << std::endl;
-        //std::cout << (*(*node).parent).agent.x << (*(*node).parent).agent.y << std::endl;
     }
     return steps;
-
-
-
 }
+
 
 
 

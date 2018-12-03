@@ -15,6 +15,7 @@ public:
     Node(sf::Vector2i agent_, std::vector<sf::Vector2i> boxes_);
     Node(sf::Vector2i agent_, std::vector<sf::Vector2i> boxes_, Node* parent_);
     Node(const Node& orig);
+    Node(Node& orig);
     virtual ~Node();
 
     //int getDegree();
@@ -32,8 +33,7 @@ public:
     sf::Vector2i agent;
     Node* parent;
     std::vector<sf::Vector2i> boxes;
-    //std::vector<Edge> edges_out;
-
+    void debugPrint() const;
 };
 
 

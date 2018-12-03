@@ -8,6 +8,7 @@
 #pragma once
 #include "Solver.hpp"
 #include <iostream>
+#include "Grid.hpp"
 
 class BFS_Solver : public Solver {
 public:
@@ -16,7 +17,7 @@ public:
     BFS_Solver(const BFS_Solver& orig);
     virtual ~BFS_Solver();
 
-    bool graphSearch();
+    bool graphSearch(Grid& g, sf::RenderWindow& window);
 private:
 
 };

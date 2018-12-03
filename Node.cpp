@@ -6,6 +6,7 @@
  */
 
 #include "Node.hpp"
+#include <iostream>
 
 Node::Node() {
 }
@@ -24,7 +25,27 @@ Node::Node(const Node& orig) {
     parent = orig.parent;
 }
 
+Node::Node(Node& orig) {
+    agent = orig.agent;
+    boxes = orig.boxes;
+    parent = orig.parent;
+}
+
 Node::~Node() {
 }
 
+
+using std::cout;
+using std::endl;
+
+void Node::debugPrint() const {
+    cout << "<<<<\nNode at: " << agent.x << ", " << agent.y << endl;
+    cout << "  Address of this node: " << this << endl;
+    cout << "  Pointer to parent:    " << parent << endl;
+    cout << "  Boxes: " << endl;
+    for (auto b : boxes) {
+        cout << "    " << b.x << ", " << b.y << endl;
+    }
+    cout << "\n>>>>" << endl;
+};
 

@@ -35,9 +35,11 @@ public:
 
     std::vector<Node*> retracePath(Node* node) const;
 
+
 public:
     sf::Vector2i agent;
-    std::set<std::pair<int, int>> freeSpaces;
+    std::set<std::pair<int, int> > freeSpaces;
+    std::set<std::pair<int, int> > walls;
     std::vector<sf::Vector2i> boxes;
     std::vector<sf::Vector2i> goals;
     std::vector<Node> fringe, closed;
