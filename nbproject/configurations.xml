@@ -5,6 +5,7 @@
                    displayName="Header Files"
                    projectFiles="true">
       <itemPath>C:/Users/Lefa/Documents/NetBeansProjects/Sokoban_SFML/BFS_Solver.hpp</itemPath>
+      <itemPath>C:/Users/Lefa/Documents/NetBeansProjects/Sokoban_SFML/DFS_Solver.hpp</itemPath>
       <itemPath>C:/Users/Lefa/Documents/NetBeansProjects/Sokoban_SFML/Grid.hpp</itemPath>
       <itemPath>C:/Users/Lefa/Documents/NetBeansProjects/Sokoban_SFML/Node.hpp</itemPath>
       <itemPath>C:/Users/Lefa/Documents/NetBeansProjects/Sokoban_SFML/Solver.hpp</itemPath>
@@ -17,6 +18,7 @@
                    displayName="Source Files"
                    projectFiles="true">
       <itemPath>C:/Users/Lefa/Documents/NetBeansProjects/Sokoban_SFML/BFS_Solver.cpp</itemPath>
+      <itemPath>C:/Users/Lefa/Documents/NetBeansProjects/Sokoban_SFML/DFS_Solver.cpp</itemPath>
       <itemPath>C:/Users/Lefa/Documents/NetBeansProjects/Sokoban_SFML/Grid.cpp</itemPath>
       <itemPath>C:/Users/Lefa/Documents/NetBeansProjects/Sokoban_SFML/Node.cpp</itemPath>
       <itemPath>C:/Users/Lefa/Documents/NetBeansProjects/Sokoban_SFML/Solver.cpp</itemPath>
@@ -69,6 +71,16 @@
             flavor2="0">
       </item>
       <item path="C:/Users/Lefa/Documents/NetBeansProjects/Sokoban_SFML/BFS_Solver.hpp"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="C:/Users/Lefa/Documents/NetBeansProjects/Sokoban_SFML/DFS_Solver.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="C:/Users/Lefa/Documents/NetBeansProjects/Sokoban_SFML/DFS_Solver.hpp"
             ex="false"
             tool="3"
             flavor2="0">
@@ -132,6 +144,16 @@
             flavor2="0">
       </item>
       <item path="C:/Users/Lefa/Documents/NetBeansProjects/Sokoban_SFML/BFS_Solver.hpp"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="C:/Users/Lefa/Documents/NetBeansProjects/Sokoban_SFML/DFS_Solver.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="C:/Users/Lefa/Documents/NetBeansProjects/Sokoban_SFML/DFS_Solver.hpp"
             ex="false"
             tool="3"
             flavor2="0">

@@ -6,6 +6,7 @@
 #include "Grid.hpp"
 #include "Solver.hpp"
 #include "BFS_Solver.hpp"
+#include "DFS_Solver.hpp"
 
 /*
  * 
@@ -20,7 +21,7 @@ int main(int argc, char** argv) {
     std::string str;
 
     std::ifstream input("C:/Users/Lefa/Documents/NetBeansProjects/Sokoban_SFML/"
-            "levels/connection.sok");
+            "levels/easy.sok");
     while (!input.is_open()) {
         std::cout << "failed to open input file, exiting" << std::endl;
         return -1;
@@ -28,7 +29,7 @@ int main(int argc, char** argv) {
     while (std::getline(input, str)) {
         input_strings.push_back(str);
     }
-    BFS_Solver s(input_strings);
+    DFS_Solver s(input_strings);
 
     s.logLocations();
 
@@ -51,11 +52,11 @@ int main(int argc, char** argv) {
 
 
     sf::ContextSettings settings;
-    settings.antialiasingLevel = 8;
+    //settings.antialiasingLevel = 8;
     sf::RenderWindow window(sf::VideoMode(width, height), "My window",
             sf::Style::Default, settings);
 
-    //window.setFramerateLimit(200);
+    //window.setFramerateLimit(5);
     while (window.isOpen()) {
         sf::Event event;
         while (window.pollEvent(event)) {
@@ -69,7 +70,7 @@ int main(int argc, char** argv) {
                     break;
             }
         }
-        window.clear(sf::Color::White);
+        window.clear(sf::Color::Black);
 
         window.display();
 
@@ -78,7 +79,7 @@ int main(int argc, char** argv) {
         //this could be done in a more sensible way...
         s.graphSearch(g, window);
         std::cout << "Type anything to end the program: >";
-        char* in;
+        char* in = "   ";
         std::cin >> in;
         window.close();
 

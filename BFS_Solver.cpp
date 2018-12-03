@@ -14,6 +14,17 @@ BFS_Solver::BFS_Solver(const BFS_Solver& orig) {
 BFS_Solver::~BFS_Solver() {
 }
 
+Node BFS_Solver::popFringe() {
+
+    Node n = this->fringe.front();
+
+    const std::vector<Node>::iterator fringe_it = std::find(
+            fringe.begin(), fringe.end(), n);
+
+    fringe.erase(fringe_it);
+    return n;
+}
+
 bool BFS_Solver::graphSearch(Grid& g, sf::RenderWindow& window) {
 
     Node current(this->agent, this->boxes);
@@ -40,8 +51,7 @@ bool BFS_Solver::graphSearch(Grid& g, sf::RenderWindow& window) {
         //jolloin se on oman itsensä parent.
 
         //TODO: keksi keino miten tämä korjataan.
-
-        current = this->fringe.front();
+        current = this->popFringe();
 
         g.draw(window, current);
         //std::cout << "current: " << std::endl;
@@ -58,20 +68,11 @@ bool BFS_Solver::graphSearch(Grid& g, sf::RenderWindow& window) {
         //check if not in closed
         if (std::find(closed.begin(), closed.end(), current) == closed.end()) {
             closed.push_back(current);
-            const std::vector<Node>::iterator fringe_it = std::find(
-                    fringe.begin(), fringe.end(), current);
-
-            fringe.erase(fringe_it);
 
             std::vector<Node> children = this->expandEdges(current);
 
             fringe.insert(fringe.end(), children.begin(), children.end());
 
-        } else {
-            std::vector<Node>::iterator fringe_it = std::find(fringe.begin(),
-                    fringe.end(), current);
-
-            fringe.erase(fringe_it);
         }
 
     }

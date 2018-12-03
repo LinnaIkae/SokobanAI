@@ -17,6 +17,7 @@ public:
     BFS_Solver(const BFS_Solver& orig);
     virtual ~BFS_Solver();
 
+    virtual Node popFringe();
     bool graphSearch(Grid& g, sf::RenderWindow& window);
 private:
 
