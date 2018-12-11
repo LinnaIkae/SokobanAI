@@ -18,8 +18,9 @@ public:
     virtual ~BFS_Solver();
 
     virtual Node popFringe();
-    bool graphSearch(Grid& g, sf::RenderWindow& window);
+    bool searchStep(Grid& g, sf::RenderWindow& window);
+    Node current;
 private:
-
+    bool first_step_done;
 };
 

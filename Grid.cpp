@@ -76,8 +76,6 @@ sf::Vector2f Grid::getCellPos(sf::Vector2f vec) const {
 
 void Grid::draw(sf::RenderWindow& window, Node& node) {
 
-    window.clear(sf::Color::White);
-
     // Drawing the static playfield:
     for (const auto& rect : cells) {
         window.draw(rect);
@@ -103,7 +101,6 @@ void Grid::draw(sf::RenderWindow& window, Node& node) {
                 goal_pos[2 * i], goal_pos[2 * i + 1]);
     }
 
-    window.display();
 }
 
 sf::RectangleShape& Grid::getCellAt(unsigned row, unsigned col) {

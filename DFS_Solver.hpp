@@ -1,3 +1,4 @@
+#pragma once
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -10,9 +11,6 @@
  *
  * Created on 3. Dezember 2018, 18:48
  */
-
-#ifndef DFS_SOLVER_HPP
-#define DFS_SOLVER_HPP
 #include "Solver.hpp"
 #include "BFS_Solver.hpp"
 
@@ -28,5 +26,4 @@ private:
 
 };
 
-#endif /* DFS_SOLVER_HPP */
 

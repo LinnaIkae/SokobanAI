@@ -11,13 +11,17 @@
 int main(int argc, char** argv) {
 
 
+    bool ended = false;
+    bool paused = false;
+    int step_cnt = 0;
+
     std::vector<std::string> input_strings;
     std::string str;
 
     std::ifstream input("C:/Users/Lefa/Documents/NetBeansProjects/Sokoban_SFML/"
-            "levels/sokoban.sok");
+            "levels/connection.sok");
 
-    //DONT USE sokoban2.sok before you fix the col and row stuff below.
+    //fix the col and row stuff below.
     while (!input.is_open()) {
         std::cout << "failed to open input file, exiting" << std::endl;
         return -1;
@@ -25,9 +29,9 @@ int main(int argc, char** argv) {
     while (std::getline(input, str)) {
         input_strings.push_back(str);
     }
-    DFS_Solver s(input_strings);
+    BFS_Solver s(input_strings);
 
-    s.logLocations();
+    //s.logLocations();
 
 
     //for now keeping these constant seems to work and trying to make the window
@@ -41,10 +45,23 @@ int main(int argc, char** argv) {
 
     sf::ContextSettings settings;
     //settings.antialiasingLevel = 8;
-    sf::RenderWindow window(sf::VideoMode(width, height), "My window",
+    sf::RenderWindow window(sf::VideoMode(width, height), "Sokoban by Plebor",
             sf::Style::Default, settings);
 
-    //window.setFramerateLimit(5);
+    //window.setFramerateLimit(50);
+    window.setKeyRepeatEnabled(false);
+
+    sf::Font font;
+    if (!font.loadFromFile("C:/Windows/Fonts/comic.ttf"));
+
+    sf::Text text;
+    text.setFont(font);
+    text.setString(L"Paused"); //L-etuliite on tärkeä jos haluaa ääkköset
+    text.setCharacterSize(22);
+    text.setFillColor(sf::Color::Cyan);
+    text.setStyle(sf::Text::Bold);
+    text.setPosition(sf::Vector2f(400, 100));
+
     while (window.isOpen()) {
         sf::Event event;
         while (window.pollEvent(event)) {
@@ -54,23 +71,39 @@ int main(int argc, char** argv) {
                     window.close();
                     break;
                 }
+                case (sf::Event::KeyPressed):
+                {
+                    if (event.key.code == sf::Keyboard::Space) {
+                        paused = !paused;
+                        std::cout << step_cnt << std::endl;
+                    }
+                    break;
+                }
                 default:
                     break;
             }
         }
         window.clear(sf::Color::Black);
 
+        /*Also using this library would be cool to benchmark performance and to
+        actually see speed.
+        
+            https://github.com/subh83/DOSL
+        
+        From this library I could take inspiration and tips on how to implement
+        the path retrace function.
+         */
+        if (paused) {
+            g.draw(window, s.current);
+            window.draw(text);
+        } else if (ended) {
+            g.draw(window, s.current);
+        } else {
+            ended = s.searchStep(g, window);
+            step_cnt += 1;
+        }
+
         window.display();
-
-        //this could be done in a more sensible way...
-
-        s.graphSearch(g, window);
-        std::cout << "Type anything to end the program: >";
-        char* in = "   ";
-        std::cin >> in;
-        window.close();
-
-
     }
 
 

@@ -9,6 +9,7 @@ BFS_Solver::BFS_Solver() {
 
 BFS_Solver::BFS_Solver(std::vector<std::string> lines) :
 Solver(lines) {
+    first_step_done = false;
 };
 
 BFS_Solver::BFS_Solver(const BFS_Solver& orig) {
@@ -28,30 +29,26 @@ Node BFS_Solver::popFringe() {
     return n;
 }
 
-bool BFS_Solver::graphSearch(Grid& g, sf::RenderWindow& window) {
+bool BFS_Solver::searchStep(Grid& g, sf::RenderWindow& window) {
 
-    auto start = std::chrono::high_resolution_clock::now();
-    Node current(this->agent, this->boxes);
-    g.draw(window, current);
-    fringe.clear();
-    this->fringe.push_back(current);
-    std::cout << "First Node: " << std::endl;
-    current.debugPrint();
-
-    while (true) {
-        //        std::cout << "Fringe,  size: " << this->fringe.size() << std::endl;
-        //        for (auto nnn : this->fringe) {
-        //            std::cout << "Node: " << nnn.agent.x << nnn.agent.y << std::endl;
-        //            std::cout << "box[0]: " << nnn.boxes[0].x << nnn.boxes[0].y << "\n"
-        //                    << std::endl;
-        //        }
+    if (!first_step_done) {
+        //auto start = std::chrono::high_resolution_clock::now();
+        current = Node(this->agent, this->boxes);
+        g.draw(window, current);
+        fringe.clear();
+        this->fringe.push_back(current);
+        std::cout << "First Node: " << std::endl;
+        current.debugPrint();
+        first_step_done = true;
+        return false;
+    } else {
 
         if (this->fringe.empty()) {
             std::cout << "Failed to find solution" << std::endl;
-            auto stop = std::chrono::high_resolution_clock::now();
-            auto duration = std::chrono::duration_cast<milliseconds>(stop - start);
-            std::cout << "Time(ms) :" << duration.count() << std::endl;
-            return false;
+            //auto stop = std::chrono::high_resolution_clock::now();
+            //auto duration = std::chrono::duration_cast<milliseconds>(stop - start);
+            //std::cout << "Time(ms) :" << duration.count() << std::endl;
+            return true;
         }
 
         //eli tässä kun current muutetaan, se säilyttää saman oman osoitteen,
@@ -68,9 +65,9 @@ bool BFS_Solver::graphSearch(Grid& g, sf::RenderWindow& window) {
             for (auto n : retracePath(&current)) {
                 std::cout << "node on the path: " << (*n).agent.x << (*n).agent.y << std::endl;
             }
-            auto stop = std::chrono::high_resolution_clock::now();
-            auto duration = std::chrono::duration_cast<milliseconds>(stop - start);
-            std::cout << "Time(ms) :" << duration.count() << std::endl;
+            //auto stop = std::chrono::high_resolution_clock::now();
+            //auto duration = std::chrono::duration_cast<milliseconds>(stop - start);
+            //std::cout << "Time(ms) :" << duration.count() << std::endl;
             return true;
 
         }
@@ -83,6 +80,7 @@ bool BFS_Solver::graphSearch(Grid& g, sf::RenderWindow& window) {
             fringe.insert(fringe.end(), children.begin(), children.end());
 
         }
+        return false;
 
     }
 }

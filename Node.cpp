@@ -25,13 +25,8 @@ Node::Node(const Node& orig) {
     parent = orig.parent;
 }
 
-Node::Node(Node& orig) {
-    agent = orig.agent;
-    boxes = orig.boxes;
-    parent = orig.parent;
-}
-
 Node::~Node() {
+    //delete parent; //causes crash
 }
 
 

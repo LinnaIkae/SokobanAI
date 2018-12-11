@@ -6,7 +6,7 @@ agent(0, 0) {
 }
 
 Solver::Solver(std::vector<std::string> lines) :
-agent(0, 0), fringe(std::vector<Node>(0)) {
+  agent(0, 0), fringe(std::vector<Node>(0)) {
     this->parseInput(lines);
 }
 
