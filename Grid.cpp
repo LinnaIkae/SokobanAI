@@ -5,6 +5,7 @@
 Grid::Grid(sf::Vector2f s_cell, unsigned rows_, unsigned columns_, Solver& s) :
 cell_size(s_cell), rows(rows_ + 1), columns(columns_) {
     std::vector<sf::Vector2f> cellPosit;
+    sprite_scale = sf::Vector2f(1, 1);
     for (int i = 0; i < rows; i++) {
         for (int j = 0; j < columns; j++) {
             cellPosit.push_back(getCellPos(i, j));
@@ -128,6 +129,7 @@ void Grid::drawSpriteAt(sf::Sprite& sprite, sf::RenderWindow& window,
         std::cout << "Warning: You are placing a sprite on the outside wall."
             << std::endl;
     sprite.setPosition(getCellCenter(row, col));
+    sprite.setScale(this->sprite_scale);
     window.draw(sprite);
 }
 

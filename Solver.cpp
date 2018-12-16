@@ -6,7 +6,7 @@ agent(0, 0) {
 }
 
 Solver::Solver(std::vector<std::string> lines) :
-  agent(0, 0), fringe(std::vector<Node>(0)) {
+agent(0, 0), fringe(std::list<Node>(0)) {
     this->parseInput(lines);
 }
 
@@ -107,9 +107,8 @@ void Solver::parseInput(std::vector<std::string> lines) {
     }
 }
 
-std::vector<Node> Solver::expandEdges(Node& node) {
-    std::vector<Node> children;
-    children.reserve(4);
+std::list<Node> Solver::expandEdges(Node& node) {
+    std::list<Node> children;
     sf::Vector2i mv_down(0, 1);
     sf::Vector2i mv_up(0, -1);
     sf::Vector2i mv_right(1, 0);
@@ -127,32 +126,27 @@ std::vector<Node> Solver::expandEdges(Node& node) {
         int neighbor_has_box = std::count(node.boxes.begin(), node.boxes.end(), mvv);
 
         if (neighbor_has_box == 1) {
-            // Neighbor tile contains a box
             sf::Vector2i push = pshs[i];
             std::pair<int, int> pushp(push.x, push.y);
 
-            //error happening here
             int box_is_blocking = (std::count(node.boxes.begin(), node.boxes.end(),
                     push));
 
-            int behind_is_free = this->freeSpaces.count(pushp);
+            int behind_is_free = freeSpaces.count(pushp);
 
             if (behind_is_free == 1 && box_is_blocking == 0) {
-                std::vector<sf::Vector2i> newBoxes = node.boxes;
-                std::vector<sf::Vector2i>::iterator box_it = std::find(
-                        newBoxes.begin(), newBoxes.end(), mvv);
+                std::list<sf::Vector2i> newBoxes = node.boxes;
 
-                newBoxes.erase(box_it);
+                newBoxes.remove(mvv);
                 newBoxes.push_back(push);
-                //                for (int i = 0; i < newBoxes.size(); i++) {
-                //                    std::cout << "Old box: " << node.boxes[i].x << node.boxes[i].y << std::endl;
-                //                    std::cout << "New box: " << newBoxes[i].x << newBoxes[i].y << std::endl;
-                //                }
 
                 Node child(mvv, newBoxes, &node);
+                std::cout << "parent: " << std::endl;
+                node.debugPrint();
+
+                std::cout << "child: " << std::endl;
+                child.debugPrint();
                 children.push_back(child);
-                //std::cout << "adding push: " << mvv.x << ", " << mvv.y << " " <<
-                //        pushp.first << ", " << pushp.second << std::endl;
             }
         } else {
             //Neigbor tile has no box.
@@ -185,22 +179,27 @@ bool Solver::goalCheck(Node& node) {
 
 }
 
-std::vector<Node*> Solver::retracePath(Node* node) const {
+std::vector<Node> Solver::retracePath(Node node) const {
 
 
     //might be best to also or only return the path in LUDR - format
 
-    std::vector<Node*> steps;
-    while ((*node).parent != NULL) {
+    std::vector<Node> steps;
+    while ((node).parent != NULL) {
         steps.push_back(node);
-        node->debugPrint();
-        node = (*node).parent;
+        node.debugPrint();
+        node = *(node.parent);
         return steps;
     }
     return steps;
 }
 
+void Solver::printFringe() {
+    std::cout << "----- Fringe: -----" << std::endl;
+    for (auto f : fringe) {
+        f.debugPrint();
+    }
 
-
+}
 
 

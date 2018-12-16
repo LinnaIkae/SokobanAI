@@ -6,14 +6,15 @@
  * Created on 24. November 2018, 15:50
  */
 #include <vector>
+#include <list>
 #include <SFML/Graphics.hpp>
 
 class Node {
 private:
 public:
     Node();
-    Node(sf::Vector2i agent_, std::vector<sf::Vector2i> boxes_);
-    Node(sf::Vector2i agent_, std::vector<sf::Vector2i> boxes_, Node* parent_);
+    Node(sf::Vector2i agent_, std::list<sf::Vector2i> boxes_);
+    Node(sf::Vector2i agent_, std::list<sf::Vector2i> boxes_, Node* parent_);
     Node(const Node& orig);
     virtual ~Node();
 
@@ -31,7 +32,7 @@ public:
 public:
     sf::Vector2i agent;
     Node* parent;
-    std::vector<sf::Vector2i> boxes;
+    std::list<sf::Vector2i> boxes;
     void debugPrint() const;
 };
 

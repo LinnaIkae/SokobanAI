@@ -19,7 +19,7 @@ int main(int argc, char** argv) {
     std::string str;
 
     std::ifstream input("C:/Users/Lefa/Documents/NetBeansProjects/Sokoban_SFML/"
-            "levels/connection.sok");
+            "levels/simple.sok");
 
     //fix the col and row stuff below.
     while (!input.is_open()) {
@@ -29,19 +29,26 @@ int main(int argc, char** argv) {
     while (std::getline(input, str)) {
         input_strings.push_back(str);
     }
-    BFS_Solver s(input_strings);
+    DFS_Solver s(input_strings);
 
     //s.logLocations();
 
 
     //for now keeping these constant seems to work and trying to make the window
     //adapt is a mess I don't want to get into again for a while.
-    const int rows = 10; //s.rows;
-    const int cols = 10; //s.columns;
+    const int rows = 15; //s.rows;
+    const int cols = 15; //s.columns;
     const int width = 600; //80 * cols; //values lower than 60 make sprites not fit
     const int height = 600; //80 * rows;
-    Grid g = Grid(sf::Vector2f(width / cols, height / rows), rows, cols, s);
+    float scale_x = width / cols;
+    float scale_y = height / rows;
 
+    //the sprites need to be scaled by factor (width/cols / 60 x height/rows / 60)
+
+    Grid g = Grid(sf::Vector2f(scale_x, scale_y), rows, cols, s);
+
+    sf::Vector2f sprite_scale(scale_x / 60, scale_y / 60);
+    g.setSpriteScale(sprite_scale);
 
     sf::ContextSettings settings;
     //settings.antialiasingLevel = 8;
@@ -75,7 +82,7 @@ int main(int argc, char** argv) {
                 {
                     if (event.key.code == sf::Keyboard::Space) {
                         paused = !paused;
-                        std::cout << step_cnt << std::endl;
+                        std::cout << "Steps in total: " << step_cnt << std::endl;
                     }
                     break;
                 }

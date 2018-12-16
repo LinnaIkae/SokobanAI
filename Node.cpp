@@ -11,11 +11,11 @@
 Node::Node() {
 }
 
-Node::Node(sf::Vector2i agent_, std::vector<sf::Vector2i> boxes_) :
+Node::Node(sf::Vector2i agent_, std::list<sf::Vector2i> boxes_) :
 agent(agent_), parent(nullptr), boxes(boxes_) {
 };
 
-Node::Node(sf::Vector2i agent_, std::vector<sf::Vector2i> boxes_, Node* parent_) :
+Node::Node(sf::Vector2i agent_, std::list<sf::Vector2i> boxes_, Node* parent_) :
 agent(agent_), parent(parent_), boxes(boxes_) {
 };
 
@@ -34,13 +34,13 @@ using std::cout;
 using std::endl;
 
 void Node::debugPrint() const {
-    cout << "<<<<\nNode at: " << agent.x << ", " << agent.y << endl;
+    cout << "<<<< Node at: " << agent.x << ", " << agent.y << endl;
     cout << "  Address of this node: " << this << endl;
     cout << "  Pointer to parent:    " << parent << endl;
     cout << "  Boxes: " << endl;
     for (auto b : boxes) {
         cout << "    " << b.x << ", " << b.y << endl;
     }
-    cout << "\n>>>>" << endl;
+    cout << ">>>>" << endl;
 };
 

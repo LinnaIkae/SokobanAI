@@ -40,6 +40,10 @@ public:
             unsigned row, unsigned col);
 
     sf::Sprite create_centered_Sprite(sf::Texture& texture, sf::IntRect rect);
+
+    void setSpriteScale(sf::Vector2f scale) {
+        sprite_scale = scale;
+    }
 public:
     sf::Vector2f cell_size;
     float rows;
@@ -55,6 +59,8 @@ public:
     sf::Sprite crate;
     sf::Sprite goal;
     std::vector<int> goal_pos;
+private:
+    sf::Vector2f sprite_scale;
 };
 
 

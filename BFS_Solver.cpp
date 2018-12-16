@@ -1,6 +1,7 @@
 #include "BFS_Solver.hpp"
 #include "Grid.hpp"
 #include <chrono>
+#include <list>
 
 using namespace std::chrono;
 
@@ -22,10 +23,7 @@ Node BFS_Solver::popFringe() {
 
     Node n = this->fringe.front();
 
-    const std::vector<Node>::iterator fringe_it = std::find(
-            fringe.begin(), fringe.end(), n);
-
-    fringe.erase(fringe_it);
+    fringe.remove(n);
     return n;
 }
 
@@ -33,13 +31,17 @@ bool BFS_Solver::searchStep(Grid& g, sf::RenderWindow& window) {
 
     if (!first_step_done) {
         //auto start = std::chrono::high_resolution_clock::now();
+
         current = Node(this->agent, this->boxes);
-        g.draw(window, current);
         fringe.clear();
-        this->fringe.push_back(current);
+        fringe.push_back(current);
+
         std::cout << "First Node: " << std::endl;
         current.debugPrint();
+
         first_step_done = true;
+
+        g.draw(window, current);
         return false;
     } else {
 
@@ -53,17 +55,18 @@ bool BFS_Solver::searchStep(Grid& g, sf::RenderWindow& window) {
 
         //eli tässä kun current muutetaan, se säilyttää saman oman osoitteen,
         //jolloin se on oman itsensä parent.
-
+        this->printFringe();
         //TODO: keksi keino miten tämä korjataan.
         current = this->popFringe();
 
         g.draw(window, current);
-        //std::cout << "current: " << std::endl;
-        //current.debugPrint();
+
+        std::cout << "current: " << std::endl;
+        current.debugPrint();
 
         if (goalCheck(current)) {
-            for (auto n : retracePath(&current)) {
-                std::cout << "node on the path: " << (*n).agent.x << (*n).agent.y << std::endl;
+            for (auto n : retracePath(current)) {
+                std::cout << "node on the path: " << n.agent.x << n.agent.y << std::endl;
             }
             //auto stop = std::chrono::high_resolution_clock::now();
             //auto duration = std::chrono::duration_cast<milliseconds>(stop - start);
@@ -75,7 +78,7 @@ bool BFS_Solver::searchStep(Grid& g, sf::RenderWindow& window) {
         if (std::find(closed.begin(), closed.end(), current) == closed.end()) {
             closed.push_back(current);
 
-            std::vector<Node> children = this->expandEdges(current);
+            std::list<Node> children = this->expandEdges(current);
 
             fringe.insert(fringe.end(), children.begin(), children.end());
 

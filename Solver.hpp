@@ -10,9 +10,10 @@
  */
 #include <vector>
 #include <string>
+#include <set>
+#include <list>
 #include "Node.hpp"
 #include <SFML/Graphics.hpp>
-#include <set>
 
 class Solver {
 public:
@@ -29,20 +30,21 @@ public:
 
     void logLocations() const;
 
-    std::vector<Node> expandEdges(Node& n);
+    std::list<Node> expandEdges(Node& n);
 
     bool goalCheck(Node& node);
 
-    std::vector<Node*> retracePath(Node* node) const;
+    std::vector<Node> retracePath(Node node) const;
 
+    void printFringe();
 
 public:
     sf::Vector2i agent;
     std::set<std::pair<int, int> > freeSpaces;
     std::set<std::pair<int, int> > walls;
-    std::vector<sf::Vector2i> boxes;
+    std::list<sf::Vector2i> boxes;
     std::vector<sf::Vector2i> goals;
-    std::vector<Node> fringe, closed;
+    std::list<Node> fringe, closed;
     int rows, columns;
 
 

@@ -29,7 +29,7 @@ DFS_Solver::~DFS_Solver() {
 Node DFS_Solver::popFringe() {
     Node n = this->fringe.back();
 
-    const std::vector<Node>::iterator fringe_it = std::find(
+    const std::list<Node>::iterator fringe_it = std::find(
             fringe.begin(), fringe.end(), n);
 
     fringe.erase(fringe_it);
