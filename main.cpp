@@ -11,6 +11,20 @@
 int main(int argc, char** argv) {
 
 
+
+
+    /*    Next steps:
+     * Paras olisi ehkä käyttää deque fringeen, koska siitä vain otetaan alusta
+     * tai lopusta tässä. Toki sitten kun pitää tehdä monimutkasempaa hakua niin
+     * tarvittaisiin list-tyyppi.
+     * 
+     * Myöskin tarvitaan "globaali" järjestetty lista, jossa on kaikki Nodet, jotta 
+     * parentteihin päästään käsiksi. Tällöin fringen elementit voisivat vain
+     * osoittaa tähän järjestettyyn listaan.
+     */
+
+
+
     bool ended = false;
     bool paused = false;
     int step_cnt = 0;
